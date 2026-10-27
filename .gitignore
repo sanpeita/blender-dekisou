@@ -1,0 +1,17 @@
+.env
+.blender_mcp_token
+out/
+*.wav
+*.mp4
+*.ass
+assets/voice_src.wav
+assets/voice_mono24k.wav
+assets/frames/
+assets/refs/
+assets/avatar/
+channel_shorts.json
+channel_videos.json
+voice/
+.venv/
+__pycache__/
+*.pyc

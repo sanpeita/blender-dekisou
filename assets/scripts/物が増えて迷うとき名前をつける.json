@@ -1,0 +1,96 @@
+{
+  "theme": "物が増えて迷うとき名前をつける",
+  "title": "Blenderって無理そう？物が増えて迷うのは名前で解決",
+  "duration_target_sec": 40,
+  "promise": "オブジェクトに名前をつけるだけで迷わなくなる",
+  "hook": {
+    "pain": "物が増えるとどれがどれかわからなくなる",
+    "one_move": "アウトライナーで名前を変えるだけ"
+  },
+  "steps": [
+    {
+      "id": 1,
+      "caption": "物が増えて迷子",
+      "narration": "キューブを増やしてみますね",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 0))"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 3.0,
+      "reveal": "デフォルト名『Cube』が並ぶアウトライナー"
+    },
+    {
+      "id": 2,
+      "caption": "名前を変えてみる",
+      "narration": "まずは一つ、名前を変えてみます",
+      "action": {
+        "kind": "python",
+        "code": "bpy.context.active_object.name = 'Floor'"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 4.0,
+      "reveal": "アウトライナーの『Cube』が『Floor』に変わる瞬間"
+    },
+    {
+      "id": 3,
+      "caption": "続けて名前をつける",
+      "narration": "残りも同じように名前をつけます",
+      "action": {
+        "kind": "python",
+        "code": "for i, o in enumerate([o for o in bpy.context.selected_objects if o.name.startswith('Cube')]): o.name = f'Box_{i+1}'"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 4.0,
+      "reveal": "選択中の『Cube』が連番の『Box_1』『Box_2』…に一括変更"
+    },
+    {
+      "id": 4,
+      "caption": "検索で即見つかる",
+      "narration": "検索窓に『Box』と打てば全部出ます",
+      "action": {
+        "kind": "python",
+        "code": "for area in bpy.context.screen.areas: [setattr(sp, 'show_restrict_column_select', True) for sp in area.spaces if sp.type == 'OUTLINER']"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 4.0,
+      "reveal": "アウトライナー上部の検索欄が表示され『Box』で絞り込み"
+    },
+    {
+      "id": 5,
+      "caption": "間違えても戻せる",
+      "narration": "名前を間違えてもCtrl+Zで戻れますよ",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.ed.undo()"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 3.0,
+      "reveal": "直前の名前変更が取り消され元の名前に戻る様子"
+    }
+  ],
+  "closing": {
+    "caption": "できそう？",
+    "narration": "まずは気になる一つから名前をつけてみてくださいね"
+  },
+  "_meta": {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "theme": "物が増えて迷うとき名前をつける",
+    "validation_errors": []
+  }
+}

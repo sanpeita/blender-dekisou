@@ -1,0 +1,25 @@
+{
+  "first_caption_within_sec": 0,
+  "telop": {
+    "cards": 3,
+    "chars_per_card_max": 20,
+    "position": "center",
+    "has_outline_or_shadow": true
+  },
+  "operation_visibility": {
+    "cursor_or_highlight_visible": false,
+    "ui_panels_visible": true,
+    "zoom_ins": 1
+  },
+  "visual_style": {
+    "background": "dark gray",
+    "avatar_present": true,
+    "color_accent": "cyan"
+  },
+  "pacing": {
+    "state_changes": 3,
+    "text_changes_fast": false
+  },
+  "hook_observed": "見たいところだけレンダー範囲にして先に小さく試す",
+  "notes": "BlenderのF12レンダーを範囲選択で部分的に行う手順を解説。左上にBlenderロゴと「無理そう…できそう！」テロップ、右上にVTuberアバター、右下に実況者の立ち絵が常時表示。"
+}

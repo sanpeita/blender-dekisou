@@ -1,0 +1,65 @@
+{
+  "series": "blender-dekisou",
+  "sample_count": 3,
+  "duration_sec": {
+    "median": 41.0,
+    "min": 27.8,
+    "max": 65.0
+  },
+  "hook": {
+    "template": "Blenderの「無理そう」を「できそう」に変える具体的なTipsを提示する",
+    "first_caption_within_sec": 0,
+    "pain_is_stated_as_question": false
+  },
+  "pacing": {
+    "state_changes": 3,
+    "text_changes_fast": false
+  },
+  "telop": {
+    "cards": 4,
+    "chars_per_card_max": 20,
+    "position": "center",
+    "has_outline_or_shadow": true,
+    "font": "白文字 + 黒縁取り + 影 / 太字 / 中央"
+  },
+  "operation_visibility": {
+    "cursor_or_highlight_visible": false,
+    "ui_panels_visible": true,
+    "zoom_ins": 1
+  },
+  "visual_style": {
+    "background": "dark gray",
+    "avatar_present": true,
+    "color_accent": "cyan"
+  },
+  "tone_notes": "Blender初心者の「無理そう」という心理的ハードルを下げる構成。常時UIパネル（ビューポート・プロパティ）を表示し、操作手順を画面構成そのもので見せるスタイル。VTuberアバターとシアンのアクセントカラーで親しみやすさと技術感を両立。テロップは白文字・黒縁取り・中央配置で視認性を確保。カーソル非表示・ズームイン最小限で「見せる」ことに特化したクリーンな画面設計。",
+  "_source": {
+    "vl_model": "nvidia/Nemotron-3.5-Super-VL",
+    "merge_model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "videos": [
+      "ZqXTGcICMFA",
+      "g7Y-mSuVeQU",
+      "KsgvL4SW4u4"
+    ],
+    "measured": {
+      "duration_median_sec": 41.0,
+      "min": 27.8,
+      "max": 65.0,
+      "aspect": "360x640",
+      "fps": 30,
+      "sample": 10
+    }
+  },
+  "layout": {
+    "aspect": "9:16",
+    "upper_zone": "アバター(右上) + 中央テロップ + 装飾吹き出し",
+    "lower_zone": "Blender画面（画面下1/3程度）",
+    "hook_visual": "赤い雲形『無理そう…』→ 下向き矢印 → 緑の雲形『できそう!』",
+    "brand_marks": [
+      "Blenderロゴ(左上, オレンジ)",
+      "うのちロゴ(左下, 白枠)"
+    ],
+    "accent": "シアンの水平ネオンライン",
+    "_verified_by": "vision_analyze による1フレーム目視（2026-10-27）"
+  }
+}

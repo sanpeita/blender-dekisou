@@ -1,0 +1,111 @@
+{
+  "theme": "角を丸くする",
+  "title": "Blenderって無理そう？角の丸めはベベルだけ",
+  "duration_target_sec": 40,
+  "promise": "ベベル1回で角が丸くなる",
+  "hook": {
+    "pain": "四角いままの角をどう丸めるか",
+    "one_move": "ベベルで角を削るだけ"
+  },
+  "steps": [
+    {
+      "id": 1,
+      "caption": "立方体を追加",
+      "narration": "まず立方体を置きます",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 0))"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 3.0,
+      "reveal": "最初の四角い箱"
+    },
+    {
+      "id": 2,
+      "caption": "編集モードへ",
+      "narration": "タブで編集モードに入ります",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.object.mode_set(mode='EDIT')"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 2.5,
+      "reveal": "頂点・辺・面が選べる画面"
+    },
+    {
+      "id": 3,
+      "caption": "全辺を選択",
+      "narration": "Aキーで全辺を選びます",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.mesh.select_all(action='SELECT')"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 2.5,
+      "reveal": "オレンジ色に光る12本の辺"
+    },
+    {
+      "id": 4,
+      "caption": "ベベルで丸める",
+      "narration": "Ctrl+Bでベベル、マウスで幅を決めます",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.mesh.bevel(offset=0.3, segments=4, profile=0.5)"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.2
+      },
+      "hold_sec": 5.0,
+      "reveal": "角が面取りされて丸くなる瞬間"
+    },
+    {
+      "id": 5,
+      "caption": "段数で滑らかに",
+      "narration": "左下の段数を増やすとより滑らか",
+      "action": {
+        "kind": "python",
+        "code": "bpy.context.active_operator.segments = 8"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.2
+      },
+      "hold_sec": 4.0,
+      "reveal": "段数8でさらに丸い断面"
+    },
+    {
+      "id": 6,
+      "caption": "元に戻せます",
+      "narration": "Ctrl+Zでベベル前の四角に戻れます",
+      "action": {
+        "kind": "python",
+        "code": "bpy.ops.ed.undo()"
+      },
+      "camera": {
+        "kind": "viewport",
+        "zoom": 1.0
+      },
+      "hold_sec": 3.0,
+      "reveal": "元の立方体に戻った画面"
+    }
+  ],
+  "closing": {
+    "caption": "できそう？",
+    "narration": "ベベル1手で角は丸くなる、まずはここだけ"
+  },
+  "_meta": {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "theme": "角を丸くする",
+    "validation_errors": []
+  }
+}

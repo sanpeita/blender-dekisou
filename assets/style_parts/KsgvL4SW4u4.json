@@ -1,0 +1,25 @@
+{
+  "first_caption_within_sec": null,
+  "telop": {
+    "cards": 4,
+    "chars_per_card_max": null,
+    "position": "画面中央上部",
+    "has_outline_or_shadow": true
+  },
+  "operation_visibility": {
+    "cursor_or_highlight_visible": false,
+    "ui_panels_visible": true,
+    "zoom_ins": null
+  },
+  "visual_style": {
+    "background": "黒",
+    "avatar_present": true,
+    "color_accent": "シアン"
+  },
+  "pacing": {
+    "state_changes": 3,
+    "text_changes_fast": false
+  },
+  "hook_observed": "Blenderロゴと「無理そう… できそう！」のテロップ",
+  "notes": "Blenderのビューポートシェーディング切り替えを紹介する縦型ショート。上部にVTuber風アバター、下部に3Dビューポートとプロパティパネルを配置。テロップは「表示を分けて見ます」「色は マテリアルプレビュー」「全部覚えなくて大丈夫」と順に表示。"
+}

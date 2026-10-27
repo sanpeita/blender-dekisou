@@ -1,0 +1,25 @@
+{
+  "first_caption_within_sec": 0,
+  "telop": {
+    "cards": 5,
+    "chars_per_card_max": 21,
+    "position": "center",
+    "has_outline_or_shadow": true
+  },
+  "operation_visibility": {
+    "cursor_or_highlight_visible": false,
+    "ui_panels_visible": true,
+    "zoom_ins": null
+  },
+  "visual_style": {
+    "background": "dark gray",
+    "avatar_present": true,
+    "color_accent": "cyan"
+  },
+  "pacing": {
+    "state_changes": 5,
+    "text_changes_fast": false
+  },
+  "hook_observed": "Blenderの「無理そう」今日はひとつ減らします",
+  "notes": "上部にVTuberアバターとBlenderロゴ、左上に「無理そう… できそう！」テロップ、下部にBlenderビューポートと右側にプロパティパネルが常時表示。テロップは白文字に黒縁取りで中央表示。"
+}
