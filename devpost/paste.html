@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Devpost 貼り付け用 — blender-dekisou</title>
+<style>
+:root{--bg:#0d1114;--panel:#141b20;--line:#243038;--text:#e9eff1;--muted:#93a3aa;--accent:#64e0c0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Yu Gothic UI",system-ui,sans-serif;line-height:1.6}
+.wrap{width:min(980px,100% - 32px);margin:0 auto;padding:28px 0 60px}
+h1{font-size:22px;margin:0 0 6px}
+.note{font-size:13px;color:var(--muted);margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:12px 0}
+.head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+h2{font-size:14px;margin:0;color:var(--accent)}
+.len{font-size:11.5px;color:var(--muted);margin-left:auto}
+textarea{width:100%;background:#0b1013;color:var(--text);border:1px solid var(--line);border-radius:8px;
+  padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;resize:vertical}
+.copy{margin-top:8px;padding:8px 14px;border-radius:8px;border:1px solid var(--accent);background:transparent;
+  color:var(--accent);font:inherit;font-size:13px;cursor:pointer}
+.copy:active{background:rgba(100,224,192,.15)}
+ol.check{font-size:13.5px;color:#c6d2d6}
+ol.check li{margin:5px 0}
+.ok{border-left:3px solid var(--accent);background:#0f1716;padding:10px 14px;border-radius:8px;font-size:13px;margin:16px 0}
+</style></head><body><div class="wrap">
+<h1>Devpost 貼り付け用メモ</h1>
+<p class="note">各欄を「コピー」→ Devpost の該当欄へ貼り付け。このページは検索避け（noindex）です。</p>
+
+<div class="ok"><strong>動画は公開済み:</strong> <a href="https://youtu.be/q2eqxVOVD98">https://youtu.be/q2eqxVOVD98</a>（37秒・public）。
+冒頭に「うのっち本人の音声をもとに作ったAI音声（合成音声）」と明記済み。</div>
+
+<ol class="check">
+<li>Manage team → 自分だけならそのまま</li>
+<li>Project overview → 1 / 2 を貼る。サムネイルは <a href="thumbnail.png">thumbnail.png</a>（1200×800）</li>
+<li>Project details → 3 / 4 / 5 / 6 を貼る（Try it out は repo と demo の両方）</li>
+<li>Additional info → 7 / 8 / 9 を貼る。参加実績は事実だけ選ぶ</li>
+<li>Submit → 提出後も締切までは編集可</li>
+</ol>
+
+
+<section class="card">
+  <div class="head"><h2>1. Project name（上限60）</h2><span class="len">50 文字</span></div>
+  <textarea id="f-name" rows="2" spellcheck="false">blender-dekisou — one line in, a Blender short out</textarea>
+  <button class="copy" data-target="f-name">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>2. Elevator pitch（上限200・英語）</h2><span class="len">182 文字</span></div>
+  <textarea id="f-pitch" rows="2" spellcheck="false">One theme line in, a 36-second 9:16 Blender short out. Nemotron Ultra plans and writes, Lightning performs the bpy steps in Blender over MCP, Super VL checks frames, ffmpeg composes.</textarea>
+  <button class="copy" data-target="f-pitch">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>3. About the project（Markdown・そのまま貼る）</h2><span class="len">4752 文字</span></div>
+  <textarea id="f-about" rows="18" spellcheck="false">## Inspiration
+
+The author runs a Japanese VTuber channel with a Blender Shorts series called **「Blenderって無理そう？」** (&quot;Blender looks impossible, right?&quot;): 97 Blender-related Shorts, 12 tagged with the series tag. The format is a fixed recipe — one beginner pain, one move, and a promise that you can always undo. Because the recipe is stable, the bottleneck stopped being ideas and became production: record the screen, cut it, caption it, voice it, 36 seconds at a time.
+
+So the question was: **can the production pipeline be a system, while the taste stays human?**
+
+## What it does
+
+One theme line in → a 33–36 s vertical short out:
+
+- a hook (&quot;無理そう…&quot; red card → &quot;できそう!&quot; green card), 4–7 steps with one Blender action each, burned-in Japanese captions (≤18 chars per card), narration in the author&#x27;s cloned voice, and a closing that says you can undo it.
+
+Two runs are live in the demo (36.0 s and 33.2 s, 1080×1920, 30 fps), and the demo replays each step against the timeline recorded during the real run.
+
+## How we built it
+
+The rule we held to: **the LLM never touches the video.** Models plan, write, watch and verify; ffmpeg and `bpy` do the deterministic work, so a bad model response fails loudly instead of silently producing a broken file.
+
+- **Style extraction** — frames of past Shorts go to `Nemotron 3.5 Super VL`, which observes layout, caption density and pacing; `Nemotron 3 Ultra` merges those observations into `style.json`. Duration statistics were measured over 10 Shorts: median 41 s, range 27.8–65.0 s.
+- **Script** — Ultra writes a JSON script with 4–7 steps. A validator rejects too many steps, captions over 18 characters, and unsafe APIs (`quit_blender`, `save_mainfile`, file deletion).
+- **Voice** — Fish Speech 1.5 zero-shot from 30 s of the author&#x27;s own audio. Best-of-3 with automatic gates (ASR round-trip CER, F0, pauses); speaker similarity 0.944–0.966, VRAM peak 2.11 GB. Step durations are recomputed from the measured wav length, so captions and narration cannot drift.
+- **Execution** — `Nemotron 3.5 Lightning` writes and repairs the `bpy` code, executed one step at a time over an MCP server inside Blender 5.2. The repair loop is real: `bpy.context.active_operator.segments = 8` raises, and the fix is to pass `segments=` to the operator instead.
+- **Capture** — `viewport_screenshot` returns a camera render (no UI), so capture is `ffmpeg -f gdigrab` cropped to the Blender window rect, which keeps menus, gizmos and the outliner visible.
+- **Composition** — ASS captions and hook cards, with each narration clip placed at the measured start of its step, rendered to 1080×1920 / 30 fps.
+
+## Challenges
+
+Most of the work was discovering behaviour nobody documents:
+
+- Unset `reasoning_effort` → HTTP 200 with **empty content**, because thinking tokens consume `max_tokens`.
+- The model&#x27;s catalog name is not its API ID (`nvidia/Nemotron-3.5-Super-VL`); guessing the `-120b-a12b` form returns 404.
+- One request accepts at most **8 images**, so video has to be summarised per clip and merged by a text model.
+- Blender&#x27;s MCP add-on leaves **two LISTEN sockets on the same port** when you `stop()` and immediately `start()`; connections then hang with no error.
+- In ASS, `BorderStyle=3` takes the box colour from `OutlineColour`, and `\pos` kills auto-wrap — captions clipped at the frame edge.
+- Recording the Python console instead of the 3D view (Shift+F4 leaves the area in CONSOLE).
+
+## What we learned
+
+- Splitting roles by **modality**, not by convenience, is what made this debuggable: the thing that verifies is a model that can *see*, and the thing that writes code is cheap and fast.
+- Deterministic seams (ffmpeg, bpy) are what let a generative system be trusted on a deadline.
+- Letting the harness say &quot;this step failed&quot; was worth more than smoothing over failures.
+
+## What&#x27;s next
+
+- The avatar zone: a clean VRM/PNG asset so the upper third can hold the character instead of the placeholder hook cards.
+- Run the verifier loop in production (Super VL scores sampled frames, only failing steps go back to Ultra).
+- A queue so a week of themes can be produced in one batch, and a second pass on the second video&#x27;s reveal, which is visible in a screenshot but not reliably in the recording.
+
+## During the submission period
+
+The design notes for a Nebius-based system date from 2026-10-09, but nothing was implemented then. **The harness, the repository, the demo page and the video were all built on 2026-10-27**, during the submission period. No part of this project was a pre-existing public application.
+
+## Links
+
+- Demo (recorded runs, step-synced): https://unotchi.com/blender-dekisou/
+- Code (MIT): https://github.com/sanpeita/blender-dekisou
+- Video (37 s): https://youtu.be/q2eqxVOVD98
+</textarea>
+  <button class="copy" data-target="f-about">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>4. Built with（タグ。1つずつ追加）</h2><span class="len">88 文字</span></div>
+  <textarea id="f-built" rows="2" spellcheck="false">python, blender, mcp, ffmpeg, nemotron, nebius-token-factory, fish-speech, ass-subtitles</textarea>
+  <button class="copy" data-target="f-built">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>5. Try it out — repo</h2><span class="len">43 文字</span></div>
+  <textarea id="f-repo" rows="2" spellcheck="false">https://github.com/sanpeita/blender-dekisou</textarea>
+  <button class="copy" data-target="f-repo">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>5. Try it out — live demo</h2><span class="len">36 文字</span></div>
+  <textarea id="f-demo" rows="2" spellcheck="false">https://unotchi.com/blender-dekisou/</textarea>
+  <button class="copy" data-target="f-demo">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>6. Video demo link（公開済み）</h2><span class="len">28 文字</span></div>
+  <textarea id="f-video" rows="2" spellcheck="false">https://youtu.be/q2eqxVOVD98</textarea>
+  <button class="copy" data-target="f-video">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>7. Feedback（Nebius/NVIDIAへのフィードバック）</h2><span class="len">2001 文字</span></div>
+  <textarea id="f-feedback" rows="18" spellcheck="false">**What worked well**
+
+The OpenAI-compatible endpoint was a genuine drop-in: the local gateway I already had (Chat Completions, `/v1`) was replaced by Token Factory in a few minutes, with no SDK changes. Splitting work across Ultra / Super VL / Lightning was easy precisely because all three answer the same shape, and Lightning was fast enough to sit inside a tool-calling loop that runs dozens of times per video. Super VL&#x27;s image understanding was accurate enough to measure a video series&#x27; layout from frames.
+
+**Where I lost time (all fixable)**
+
+1. **`reasoning_effort` unset returns HTTP 200 with empty `content`.** Thinking tokens eat `max_tokens` and the request looks successful. I only found it by printing the raw response. Either error out, or add a warning field, or document the default.
+2. **Catalog names vs API IDs.** The pricing/catalog page showed `nvidia/nemotron-3.5-super-vl-120b-a12b`; `/v1/models` returns `nvidia/Nemotron-3.5-Super-VL` and the first form 404s. Please show the API ID next to the display name, or accept aliases.
+3. **Image limit is 8 per request and it isn&#x27;t in the model card.** For video work this forces a chunk → merge design, which is fine, but I had to discover the limit by hitting it. A documented `max_images` and a token estimator for image/video input would save a day.
+4. **Usage accounting per request**: I would like `usage` to include cached/thinking token split so cost per step can be attributed without guessing.
+
+**Small wishes**
+
+- A `/v1/models` field for modality and context limits (currently I hard-code what I learned).
+- A server-side &quot;frames from video&quot; helper, or guidance on sampling intervals for Super VL.
+
+**Overall**
+
+For a pipeline that must be reproducible on a 6 GB laptop GPU, this was the right platform: all heavy inference stayed remote, latency was predictable, and the three-model split mapped cleanly onto planner / verifier / executor. The failures I hit were all discoverability problems, not capability problems.
+</textarea>
+  <button class="copy" data-target="f-feedback">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>8. 技術要件の説明（上限255・英語）</h2><span class="len">241 文字</span></div>
+  <textarea id="f-tech" rows="2" spellcheck="false">Runs on Nebius Token Factory (OpenAI-compatible) with three NVIDIA Nemotron models: Ultra for planning, Super VL for image/video understanding, Lightning for the execution loop. Nothing is fine-tuned; ffmpeg, bpy and Fish Speech run locally.</textarea>
+  <button class="copy" data-target="f-tech">コピー</button>
+</section>
+<section class="card">
+  <div class="head"><h2>9. ライセンスURL</h2><span class="len">61 文字</span></div>
+  <textarea id="f-license" rows="2" spellcheck="false">https://github.com/sanpeita/blender-dekisou/blob/main/LICENSE</textarea>
+  <button class="copy" data-target="f-license">コピー</button>
+</section>
+
+<p class="note">ギャラリー: <a href="gallery-1.png">gallery-1</a> / <a href="gallery-2.png">gallery-2</a></p>
+
+<script>
+document.querySelectorAll('.copy').forEach(b=>{
+  b.addEventListener('click', async ()=>{
+    const t=document.getElementById(b.dataset.target);
+    try{ await navigator.clipboard.writeText(t.value); }
+    catch(e){ t.select(); document.execCommand('copy'); }
+    const o=b.textContent; b.textContent='コピーしました'; setTimeout(()=>b.textContent=o,1200);
+  });
+});
+</script>
+</div></body></html>
