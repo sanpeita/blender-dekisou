@@ -11,6 +11,9 @@ Built for **Nebius × NVIDIA Global AI Hackathon 2026 — Best Apps and Agents**
 **Live demo: <https://unotchi.com/blender-dekisou/>** — plays the two runs below and walks the
 recorded timeline step by step (no API key is exposed; the demo is a replay of real runs).
 
+**Demo video: <https://youtu.be/ukUw6NwZQCU>** — 36 s, unlisted on the author's channel
+(1080×1920, with the cloned-voice narration).
+
 The design rule: **the LLM never touches the video.** Models plan, write, watch and verify;
 ffmpeg and `bpy` do the deterministic work. If a model returns garbage, the tool still
 finishes and says so instead of producing a broken file silently.
@@ -160,8 +163,8 @@ Open / not done:
   still demonstrates end-to-end generality; this one beat is unresolved.
 - **Verifier loop** exists as schema + prompt path; the automatic "score frames → retry only
   failing steps" round-trip has not been exercised on a full run.
-- Public demo video (YouTube) is not uploaded yet. The hosted demo page is live
-  (`web/`, published from the `gh-pages` branch).
+- The demo video is unlisted (not public) on the author's channel; publishing it as a regular
+  episode is a separate decision for the channel owner.
 - Windows-only capture path (`gdigrab`); Japanese captions only (Yu Gothic UI).
 
 ---
