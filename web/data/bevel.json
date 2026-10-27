@@ -1,0 +1,101 @@
+{
+ "slug": "bevel",
+ "theme": "角を丸くする",
+ "title": "Blenderって無理そう？角の丸めはベベルだけ",
+ "promise": "ベベル1回で角が丸くなる",
+ "hook": {
+  "pain": "四角いままの角をどう丸めるか",
+  "one_move": "ベベルで角を削るだけ"
+ },
+ "closing": {
+  "caption": "できそう？",
+  "narration": "ベベル1手で角は丸くなる、まずはここだけ",
+  "audio": "D:\\ToolProjects\\blender-dekisou\\out\\角を丸くする\\narr\\narr_7.wav",
+  "audio_sec": 7.99
+ },
+ "duration_sec": 32.9,
+ "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "validation_errors": [],
+ "voice": {
+  "engine": "fish-speech-1.5",
+  "ref_sec": 30.0,
+  "pad_sec": 0.45,
+  "updated_steps": 6
+ },
+ "steps": [
+  {
+   "id": 1,
+   "caption": "立方体を追加",
+   "narration": "まず立方体を置きます",
+   "code": "bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 0))",
+   "reveal": "最初の四角い箱",
+   "audio_sec": 3.72,
+   "hold_sec": 4.17,
+   "t_start": 0.6,
+   "t_end": 4.89,
+   "error": null
+  },
+  {
+   "id": 2,
+   "caption": "編集モードへ",
+   "narration": "タブで編集モードに入ります",
+   "code": "bpy.ops.object.mode_set(mode='EDIT')",
+   "reveal": "頂点・辺・面が選べる画面",
+   "audio_sec": 3.25,
+   "hold_sec": 3.7,
+   "t_start": 4.89,
+   "t_end": 8.7,
+   "error": null
+  },
+  {
+   "id": 3,
+   "caption": "全辺を選択",
+   "narration": "Aキーで全辺を選びます",
+   "code": "bpy.ops.mesh.select_all(action='SELECT')",
+   "reveal": "オレンジ色に光る12本の辺",
+   "audio_sec": 2.46,
+   "hold_sec": 2.91,
+   "t_start": 8.7,
+   "t_end": 11.73,
+   "error": null
+  },
+  {
+   "id": 4,
+   "caption": "ベベルで丸める",
+   "narration": "Ctrl+Bでベベル、マウスで幅を決めます",
+   "code": "bpy.ops.mesh.bevel(offset=0.3, segments=2, profile=0.5)",
+   "reveal": "角が面取りされて丸くなる瞬間",
+   "audio_sec": 7.43,
+   "hold_sec": 7.88,
+   "t_start": 11.73,
+   "t_end": 19.7,
+   "error": null
+  },
+  {
+   "id": 5,
+   "caption": "段数で滑らかに",
+   "narration": "左下の段数を増やすとより滑らか",
+   "code": "bpy.ops.mesh.bevel(offset=0.18, segments=8, profile=0.5)",
+   "reveal": "段数8でさらに丸い断面",
+   "audio_sec": 4.5,
+   "hold_sec": 4.95,
+   "t_start": 19.7,
+   "t_end": 24.76,
+   "error": null
+  },
+  {
+   "id": 6,
+   "caption": "元に戻せます",
+   "narration": "Ctrl+Zでベベル前の四角に戻れます",
+   "code": "bpy.ops.ed.undo()",
+   "reveal": "元の立方体に戻った画面",
+   "audio_sec": 8.87,
+   "hold_sec": 9.32,
+   "t_start": 24.76,
+   "t_end": 34.18,
+   "error": null
+  }
+ ],
+ "ok": true,
+ "fps": 30
+}

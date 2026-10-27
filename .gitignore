@@ -11,6 +11,7 @@ assets/refs/
 assets/avatar/
 channel_shorts.json
 channel_videos.json
+web/media/
 voice/
 .venv/
 __pycache__/

@@ -8,6 +8,9 @@ captions, and a "you can always undo" close.
 Built for **Nebius × NVIDIA Global AI Hackathon 2026 — Best Apps and Agents**
 (NVIDIA Nemotron models served by Nebius Token Factory).
 
+**Live demo: <https://unotchi.com/blender-dekisou/>** — plays the two runs below and walks the
+recorded timeline step by step (no API key is exposed; the demo is a replay of real runs).
+
 The design rule: **the LLM never touches the video.** Models plan, write, watch and verify;
 ffmpeg and `bpy` do the deterministic work. If a model returns garbage, the tool still
 finishes and says so instead of producing a broken file silently.
@@ -157,7 +160,8 @@ Open / not done:
   still demonstrates end-to-end generality; this one beat is unresolved.
 - **Verifier loop** exists as schema + prompt path; the automatic "score frames → retry only
   failing steps" round-trip has not been exercised on a full run.
-- Hosted demo page and the public demo video are not part of this repository yet.
+- Public demo video (YouTube) is not uploaded yet. The hosted demo page is live
+  (`web/`, published from the `gh-pages` branch).
 - Windows-only capture path (`gdigrab`); Japanese captions only (Yu Gothic UI).
 
 ---
@@ -182,7 +186,7 @@ assets/
   scripts/*.json        generated scripts for the two demo videos (committed)
 docs/
   voice-setup.md        reproducible Fish Speech 1.5 setup and measurement loop
-web/                    hosted demo (to be built)
+web/                    hosted demo (static, no build step) — published via gh-pages
 ```
 
 ## License

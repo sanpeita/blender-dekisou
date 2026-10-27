@@ -1,0 +1,89 @@
+{
+ "slug": "naming",
+ "theme": "物が増えて迷うとき名前をつける",
+ "title": "Blenderって無理そう？物が増えて迷うのは名前で解決",
+ "promise": "オブジェクトに名前をつけるだけで迷わなくなる",
+ "hook": {
+  "pain": "物が増えるとどれがどれかわからなくなる",
+  "one_move": "アウトライナーで名前を変えるだけ"
+ },
+ "closing": {
+  "caption": "できそう？",
+  "narration": "まずは気になる一つから名前をつけてみてくださいね",
+  "audio": "D:\\ToolProjects\\blender-dekisou\\out\\物が増えて迷うとき名前をつける\\narr\\narr_6.wav",
+  "audio_sec": 7.01
+ },
+ "duration_sec": 30.2,
+ "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "validation_errors": [],
+ "voice": {
+  "engine": "fish-speech-1.5",
+  "ref_sec": 30.0,
+  "pad_sec": 0.45,
+  "updated_steps": 5
+ },
+ "steps": [
+  {
+   "id": 1,
+   "caption": "物が増えて迷子",
+   "narration": "キューブを増やしてみますね",
+   "code": "import bpy\nfor x in (-3.0, 0.0, 3.0):\n    bpy.ops.mesh.primitive_cube_add(size=1.6, location=(x, 0, 0))\nprint(len(bpy.data.objects))",
+   "reveal": "デフォルト名『Cube』が並ぶアウトライナー",
+   "audio_sec": 6.59,
+   "hold_sec": 7.04,
+   "t_start": 0.6,
+   "t_end": 7.73,
+   "error": null
+  },
+  {
+   "id": 2,
+   "caption": "名前を変えてみる",
+   "narration": "まずは一つ、名前を変えてみます",
+   "code": "bpy.context.active_object.name = 'Floor'",
+   "reveal": "アウトライナーの『Cube』が『Floor』に変わる瞬間",
+   "audio_sec": 6.55,
+   "hold_sec": 7.0,
+   "t_start": 7.73,
+   "t_end": 14.83,
+   "error": null
+  },
+  {
+   "id": 3,
+   "caption": "続けて名前をつける",
+   "narration": "残りも同じように名前をつけます",
+   "code": "import bpy\ntargets = [x for x in bpy.data.objects\n           if x.type == 'MESH' and not x.name.startswith('__mark')]\nfor i, o in enumerate(targets, 1):\n    o.name = '部品_%02d' % i\nprint([o.name for o in targets])",
+   "reveal": "選択中の『Cube』が連番の『Box_1』『Box_2』…に一括変更",
+   "audio_sec": 4.64,
+   "hold_sec": 5.09,
+   "t_start": 14.83,
+   "t_end": 20.03,
+   "error": null
+  },
+  {
+   "id": 4,
+   "caption": "検索で即見つかる",
+   "narration": "検索窓に『Box』と打てば全部出ます",
+   "code": "import bpy\no = bpy.data.objects.get('部品_01')\nif o:\n    bpy.ops.object.select_all(action='DESELECT')\n    o.select_set(True)\n    bpy.context.view_layer.objects.active = o\n    print('selected', o.name)",
+   "reveal": "アウトライナー上部の検索欄が表示され『Box』で絞り込み",
+   "audio_sec": 5.34,
+   "hold_sec": 5.79,
+   "t_start": 20.03,
+   "t_end": 25.94,
+   "error": null
+  },
+  {
+   "id": 5,
+   "caption": "間違えても戻せる",
+   "narration": "名前を間違えてもCtrl+Zで戻れますよ",
+   "code": "bpy.ops.ed.undo()",
+   "reveal": "直前の名前変更が取り消され元の名前に戻る様子",
+   "audio_sec": 4.83,
+   "hold_sec": 5.28,
+   "t_start": 25.94,
+   "t_end": 31.33,
+   "error": null
+  }
+ ],
+ "ok": true,
+ "fps": 30
+}
