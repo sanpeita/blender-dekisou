@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blender-dekisou — テーマ1行から Blender ショート</title>
+<meta name="description" content="テーマ1行から、Blenderの操作ショートを自動生成するパイプライン。Nemotron Ultra / Super VL / Lightning + Blender MCP + Fish Speech。">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1418'/%3E%3Cpath d='M9 22V10h6.5a3.5 3.5 0 0 1 0 7H12v5z' fill='%2364e0c0'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Nebius × NVIDIA Global AI Hackathon 2026 · Best Apps and Agents</p>
+    <h1>テーマ1行から、<br><span class="accent">Blenderのショート</span>が出てくる。</h1>
+    <p class="lead">
+      「Blenderできそう」シリーズの型を、過去回から実測してあります。
+      企画と台本は Nemotron Ultra、型の抽出と検証は Super VL、工程の実行は Lightning が担当し、
+      録画・テロップ・音声の合成は ffmpeg と bpy の決定論的処理に落としています。
+    </p>
+    <div class="chips">
+      <span class="chip">36.0 s / 33.2 s を実生成</span>
+      <span class="chip">1080 × 1920 / 30 fps</span>
+      <span class="chip">話者類似度 0.944–0.966</span>
+      <span class="chip">VRAM 2.11 GB</span>
+    </div>
+    <p class="links">
+      <a href="https://github.com/sanpeita/blender-dekisou" target="_blank" rel="noopener">GitHub（コードと手順）</a>
+      <a href="https://youtu.be/q2eqxVOVD98" target="_blank" rel="noopener">YouTube（公開・37秒）</a>
+      <a href="#pipeline">パイプライン</a>
+      <a href="#notes">実機で踏んだ罠</a>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="notice" role="note">
+    <strong>これは「記録済みのRun」の再生です。</strong>
+    公開デモにAPIキーを置かないため、その場でのライブ生成はしません。下の2本は、このパイプラインが実際に
+    出力した動画と、その実行時のタイムライン（各工程の開始・終了時刻）です。自分の環境で回す手順は
+    <a href="https://github.com/sanpeita/blender-dekisou#quickstart-windows" target="_blank" rel="noopener">README</a> にあります。
+  </section>
+
+  <nav class="runs" id="runs" aria-label="生成済みのRun">
+    <!-- populated by app.js -->
+  </nav>
+
+  <section class="stage">
+    <div class="player-col">
+      <div class="phone">
+        <video id="video" playsinline controls preload="metadata"></video>
+        <button class="playbtn" id="playbtn" type="button" aria-label="再生">▶</button>
+        <span class="lenbadge" id="lenbadge">—</span>
+      </div>
+      <p class="hint">工程をタップすると、その場面までシークします。再生に合わせて右の工程が光ります。</p>
+    </div>
+
+    <div class="info-col">
+      <h2 id="runTitle">…</h2>
+      <p class="promise" id="runPromise"></p>
+
+      <dl class="runmeta">
+        <div><dt>型</dt><dd id="metaStyle">—</dd></div>
+        <div><dt>尺 / 工程</dt><dd id="metaLen">—</dd></div>
+        <div><dt>台本</dt><dd id="metaModel">—</dd></div>
+        <div><dt>検証</dt><dd id="metaValid">—</dd></div>
+      </dl>
+
+      <ol class="steps" id="steps"></ol>
+    </div>
+  </section>
+
+  <section id="pipeline" class="block">
+    <h2>パイプライン</h2>
+    <ol class="flow">
+      <li><b>型の抽出</b><span>過去回のフレーム → Super VL が観察 → Ultra が統合 → <code>style.json</code></span></li>
+      <li><b>台本と工程表</b><span>Ultra が 4〜7工程・テロップ18字以内で生成 → バリデータ（禁止API・尺・字数）</span></li>
+      <li><b>ナレーション</b><span>Fish Speech 1.5 zero-shot（参照30秒）→ 実測の音声長から <code>hold_sec</code> を更新</span></li>
+      <li><b>実行と録画</b><span>Lightning の bpy コードを MCP 経由で1工程ずつ実行 → ffmpeg gdigrab でウィンドウを録画</span></li>
+      <li><b>合成</b><span>ASS テロップ＋フック（赤→緑）＋音声配置 → 1080×1920 / 30fps</span></li>
+    </ol>
+    <p class="fine">
+      Super VL によるフレーム採点と、失敗工程だけの差し戻しはスキーマとプロンプト経路まで実装済み（本番運用はこれから）。
+    </p>
+  </section>
+
+  <section id="type" class="block">
+    <h2>抽出した「型」</h2>
+    <div class="grid3">
+      <div class="card"><span class="num">41 秒</span><span class="lbl">尺の中央値（実測 27.8–65.0 秒 / 10本）</span></div>
+      <div class="card"><span class="num">9:16</span><span class="lbl">縦型。下1/3〜1/2がBlender画面</span></div>
+      <div class="card"><span class="num">18 字</span><span class="lbl">テロップ1枚の上限。白文字＋黒縁＋影</span></div>
+    </div>
+    <p class="fine">
+      型は「無理そう…（赤）→ できそう!（緑）」で始まり、1本につき操作はひとつだけ。
+      「全部教えない。今日ここだけ見えればいい。」がシリーズの設計です。
+    </p>
+  </section>
+
+  <section id="notes" class="block">
+    <h2>実機で踏んだ罠（抜粋）</h2>
+    <details>
+      <summary>13件のうち6件を表示</summary>
+      <ul class="traps">
+        <li><code>reasoning_effort</code> 未指定だと思考トークンが <code>max_tokens</code> を食い尽くし、本文が空で返る。→ <code>none</code> を明示。</li>
+        <li>Super VL の実IDは <code>nvidia/Nemotron-3.5-Super-VL</code>。カタログ表記のまま投げると404。</li>
+        <li><code>viewport_screenshot</code> はカメラレンダーで UI が写らない。→ <code>gdigrab</code>＋ウィンドウ矩形クロップ。</li>
+        <li><code>bpy.context.active_operator.segments</code> は効かない。→ オペレータ呼び出しの引数で渡す。</li>
+        <li>MCPアドオンは <code>stop()</code> 直後の <code>start()</code> で同一ポートに LISTEN が二重に残り、接続が固まる。→ 状態を強制リセットし別ポートへ。</li>
+        <li>ASS の <code>BorderStyle=3</code> は箱の色が <code>OutlineColour</code>。最初は白い空箱になった。</li>
+      </ul>
+    </details>
+    <p class="fine">全13件と、未解決事項は <a href="https://github.com/sanpeita/blender-dekisou#engineering-notes--what-actually-broke" target="_blank" rel="noopener">README</a> に。</p>
+  </section>
+
+  <section id="status" class="block">
+    <h2>未解決（正直に）</h2>
+    <ul class="open">
+      <li>上部のアバターゾーン：クリーンな VRM / 透過PNG が無いため、いまは「無理そう…→できそう!」の箱で代替。</li>
+      <li>2本目の「3つ並べる」見せ場：直接スクショでは写るが、録画では再描画とのタイミングで1つしか写らない。</li>
+      <li>検証ループ（フレーム採点→失敗工程の差し戻し）は、まだ本番のRunで回していない。</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>blender-dekisou — MIT License · コード: <a href="https://github.com/sanpeita/blender-dekisou" target="_blank" rel="noopener">sanpeita/blender-dekisou</a></p>
+    <p class="fine">モデルは Nebius Token Factory 経由（NVIDIA Nemotron）。音声は Fish Speech 1.5 をローカル実行。参照音声と生成物は再配布していません。</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
